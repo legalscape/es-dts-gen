@@ -2,8 +2,8 @@
   "name": "es-dts-gen",
   "version": "1.0.0",
   "description": "Generates TypeScript definition files from the index mappings of Elasticsearch.",
-  "main": "src/cli.ts",
   "scripts": {
+    "lint": "eslint --ext .ts src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -27,6 +27,7 @@
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.12.0",
     "ts-node": "^9.0.0"
   }
 }
