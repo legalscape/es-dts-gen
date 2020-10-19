@@ -1,18 +1,21 @@
 import * as arg from 'arg';
 import { promises as fsPromises } from 'fs';
 import { IndexMapping } from './index-mapping';
+import { DefaultType } from './default-type';
 import { DtsGenerator } from './dts-generator';
 import * as colors from 'colors';
 
 const ArgSpec = {
   '--node': String,
   '--destination': String,
+  '--default-types': String,
   '-d': '--destination',
 };
 
 class Argument {
   node = 'http://localhost:9200/';
   destination = 'generated/es';
+  defaultTypes: DefaultType = ['single'];
 
   constructor() {
     const args = arg(ArgSpec);
@@ -31,6 +34,19 @@ class Argument {
         this.destination = this.destination.slice(0, -1);
       }
     }
+
+    if (!args['--default-types']) {
+      console.log(`Option --default-types <types...> is not specified. Use default: ${this.defaultTypes}`);
+    } else {
+      const defaultTypes = [...new Set<string>(args['--default-types'].split(',').map((s) => s.trim()))];
+      defaultTypes.forEach((s) => {
+        if (!['single', 'array', 'undefined'].includes(s)) {
+          throw Error(`Unsupported default type: ${s}`);
+        }
+      });
+
+      this.defaultTypes = defaultTypes as DefaultType;
+    }
   }
 }
 
@@ -46,7 +62,7 @@ async function main(): Promise<void> {
     const filename = `${args.destination}/${mapping.name}.d.ts`;
     console.log(`[${colors.green(mapping.name)}] ${colors.underline(filename)}`);
 
-    const code = new DtsGenerator(mapping).generate();
+    const code = new DtsGenerator(mapping, args.defaultTypes).generate();
     console.log(colors.grey(code));
 
     await fsPromises.writeFile(filename, code);

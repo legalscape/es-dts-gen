@@ -1,14 +1,17 @@
+import { DefaultType } from './default-type';
 import { IndexMapping, IndexMappingField, IndexMappingNestedField } from './index-mapping';
 
 import * as prettier from 'prettier';
 
 export class DtsGenerator {
   readonly indexMapping: IndexMapping;
+  readonly defaultTypes: DefaultType;
   interfaceCodes: { [interfaceName: string]: string } = {};
   stack: string[] = [];
 
-  constructor(indexMapping: IndexMapping) {
+  constructor(indexMapping: IndexMapping, defaultTypes: DefaultType) {
     this.indexMapping = indexMapping;
+    this.defaultTypes = defaultTypes;
   }
 
   generate(): string {
@@ -31,7 +34,13 @@ export class DtsGenerator {
     const propertyDefinitions = fields.map((field) => {
       try {
         const tsType = this.toTsType(field);
-        return `${field.name}: ${tsType} | Array<${tsType}> | undefined;`;
+        const types = [
+          this.defaultTypes.includes('single') ? tsType : null,
+          this.defaultTypes.includes('array') ? `Array<${tsType}>` : null,
+          this.defaultTypes.includes('undefined') ? 'undefined' : null,
+        ].filter((s) => s !== null);
+
+        return `${field.name}: ${types.join(' | ')};`;
       } catch (e) {
         console.log(`Error: failed to convert type: field name = ${field.name}, type = ${field.type}.\nCaused by:`, e);
         throw e;
