@@ -6,6 +6,7 @@ import * as prettier from 'prettier';
 export class DtsGenerator {
   readonly indexMapping: IndexMapping;
   readonly defaultTypes: DefaultType;
+  readonly prefix = 'Es';
   interfaceCodes: { [interfaceName: string]: string } = {};
   stack: string[] = [];
 
@@ -78,7 +79,7 @@ export class DtsGenerator {
   }
 
   createInterfaceName(name: string): string {
-    return [...this.stack, this.toUpperCamelCase(name)].join('_');
+    return this.prefix + [...this.stack, this.toUpperCamelCase(name)].join('_');
   }
 
   toUpperCamelCase(input: string): string {
