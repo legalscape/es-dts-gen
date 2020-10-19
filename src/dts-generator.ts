@@ -26,7 +26,7 @@ export class DtsGenerator {
     this.stack.push(interfaceName);
 
     const propertyDeclaration = this.generatePropertyDeclaration(fields);
-    this.interfaceCodes[interfaceName] = `interface ${interfaceName} { ${propertyDeclaration} }`;
+    this.interfaceCodes[interfaceName] = `export interface ${interfaceName} { ${propertyDeclaration} }`;
 
     this.stack.pop();
   }
