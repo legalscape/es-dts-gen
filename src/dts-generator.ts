@@ -14,7 +14,7 @@ export class DtsGenerator {
   generate(): string {
     this.generateInterfaceCode(this.createInterfaceName(this.indexMapping.name), this.indexMapping.fields);
 
-    const interfaceCodes = Object.values(this.interfaceCodes).join('\n');
+    const interfaceCodes = Object.values(this.interfaceCodes).join('\n\n');
     return prettier.format(interfaceCodes, { parser: 'typescript', printWidth: 120 });
   }
 
