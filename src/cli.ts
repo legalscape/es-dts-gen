@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as arg from 'arg';
 import { promises as fsPromises } from 'fs';
 import { IndexMapping } from './index-mapping';

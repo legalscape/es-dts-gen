@@ -2,10 +2,12 @@
   "name": "es-dts-gen",
   "version": "1.0.0",
   "description": "Generates TypeScript definition files from the index mappings of Elasticsearch.",
-  "bin": "./bin/es-dts-gen",
+  "main": "./src/cli.js",
+  "bin": {
+    "es-dts-gen": "./src/cli.js"
+  },
   "scripts": {
     "build": "tsc -p .",
-    "es-dts-gen": "ts-node src/cli.ts",
     "lint": "eslint --ext .ts src/",
     "prettier": "prettier --write --check src/**/*.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
