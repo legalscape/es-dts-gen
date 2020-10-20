@@ -79,7 +79,10 @@ export class DtsGenerator {
   }
 
   createInterfaceName(name: string): string {
-    return this.prefix + [...this.stack, this.toUpperCamelCase(name)].join('_');
+    if (this.stack.length > 0) {
+      return `${this.stack[this.stack.length - 1]}_${this.toUpperCamelCase(name)}`;
+    }
+    return this.prefix + this.toUpperCamelCase(name);
   }
 
   toUpperCamelCase(input: string): string {
