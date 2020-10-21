@@ -1,6 +1,6 @@
 {
   "name": "es-dts-gen",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Generates TypeScript definition files from the index mappings of Elasticsearch.",
   "main": "./src/cli.js",
   "bin": {
@@ -17,11 +17,10 @@
     "Elasticsearch",
     "TypeScript"
   ],
-  "homepage": "https://github.com/komiya-atsushi/es-dts-gen",
+  "homepage": "https://github.com/legalscape/es-dts-gen",
   "author": {
-    "name": "KOMIYA Atsushi",
-    "email": "komiya.atsushi@gmail.com",
-    "url": "https://github.com/komiya-atsushi/es-dts-gen"
+    "name": "Legalscape, Inc.",
+    "url": "https://github.com/legalscape"
   },
   "license": "MIT",
   "dependencies": {
