@@ -11,7 +11,8 @@
     "build": "tsc -p .",
     "lint": "eslint --ext .ts src/",
     "prettier": "prettier --write --check src/**/*.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release-patch": "yarn version --patch && yarn version --prepatch"
   },
   "keywords": [
     "Elasticsearch",
