@@ -4,8 +4,8 @@ import {
   FieldDefinition,
   FieldDefinitionNested,
   IndicesGetMappingResponse,
-  IndicesStatsResponse
-} from "./es/indices";
+  IndicesStatsResponse,
+} from './es/indices';
 
 export class IndexMappingField {
   readonly name: string;
