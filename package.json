@@ -4,7 +4,7 @@
   "description": "Generates TypeScript definition files from the index mappings of Elasticsearch.",
   "main": "./src/cli.js",
   "bin": {
-    "es-dts-gen": "./src/cli.js"
+    "es-dts-gen": "./bin/es-dts-gen"
   },
   "scripts": {
     "prepare": "npm run build",
