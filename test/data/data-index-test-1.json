@@ -1,0 +1,59 @@
+[
+  {
+    "number_int_nonnull_mandatory": 1,
+    "number_long_nullable": null,
+    "number_double_nullable_optional": null,
+    "date_array_nonnull_mandatory": [
+      "2009-02-14T08:31:30Z",
+      "2009-02-14T08:31:31Z",
+      "2009-02-14T08:31:32Z"
+    ],
+    "boolean_array_nullable": null,
+    "text_array_nullable_optional": null
+  },
+  {
+    "number_int_nonnull_mandatory": 2,
+    "number_long_nullable": 1,
+    "number_float_optional": 0.5,
+    "date_array_nonnull_mandatory": [
+      "2009-02-14T08:31:30Z",
+      "2009-02-14T08:31:31Z"
+    ],
+    "boolean_array_nullable": [
+      true,
+      true
+    ],
+    "keyword_array_optional": [
+      "apple",
+      "banana"
+    ]
+  },
+  {
+    "number_int_nonnull_mandatory": 3,
+    "number_long_nullable": 2,
+    "number_float_optional": 0.25,
+    "number_double_nullable_optional": 0.5,
+    "date_array_nonnull_mandatory": [
+      "2009-02-14T08:31:30Z"
+    ],
+    "boolean_array_nullable": [
+      true
+    ],
+    "keyword_array_optional": [
+      "apple"
+    ],
+    "text_array_nullable_optional": [
+      "The quick brown fox jumps over the lazy dog"
+    ]
+  },
+  {
+    "number_int_nonnull_mandatory": 4,
+    "number_long_nullable": 3,
+    "number_float_optional": 0.125,
+    "number_double_nullable_optional": 0.25,
+    "date_array_nonnull_mandatory": [],
+    "boolean_array_nullable": [],
+    "keyword_array_optional": [],
+    "text_array_nullable_optional": []
+  }
+]

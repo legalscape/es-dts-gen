@@ -1,0 +1,56 @@
+[
+  {
+    "nested": {
+      "nested_field_nonnull_mandatory": 1,
+      "nested_field_nullable": null,
+      "nested_field_array": [
+        1,
+        1,
+        1
+      ]
+    },
+    "nested_array": [
+      {
+        "nested_array_field_nonnull_mandatory": 1,
+        "nested_array_field_array": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "nested_array_field_nonnull_mandatory": 2,
+        "nested_array_field_array": [
+          2,
+          2,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "nested": {
+      "nested_field_nonnull_mandatory": 2,
+      "nested_field_nullable": 2,
+      "nested_field_optional": 2,
+      "nested_field_nullable_optional": null,
+      "nested_field_array": []
+    },
+    "nested_array": [
+      {
+        "nested_array_field_nonnull_mandatory": 3,
+        "nested_array_field_array": []
+      }
+    ]
+  },
+  {
+    "nested": {
+      "nested_field_nonnull_mandatory": 3,
+      "nested_field_nullable": 3,
+      "nested_field_optional": 3,
+      "nested_field_nullable_optional": 3,
+      "nested_field_array": []
+    },
+    "nested_array": []
+  }
+]

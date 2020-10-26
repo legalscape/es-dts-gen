@@ -1,0 +1,37 @@
+{
+  "mappings": {
+    "properties": {
+      "nested": {
+        "type": "nested",
+        "properties": {
+          "nested_field_nonnull_mandatory": {
+            "type": "integer"
+          },
+          "nested_field_nullable": {
+            "type": "integer"
+          },
+          "nested_field_optional": {
+            "type": "integer"
+          },
+          "nested_field_nullable_optional": {
+            "type": "integer"
+          },
+          "nested_field_array": {
+            "type": "integer"
+          }
+        }
+      },
+      "nested_array": {
+        "type": "nested",
+        "properties": {
+          "nested_array_field_nonnull_mandatory": {
+            "type": "integer"
+          },
+          "nested_array_field_array": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

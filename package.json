@@ -11,7 +11,7 @@
     "build": "tsc -p .",
     "lint": "eslint --ext .ts src/",
     "prettier": "prettier --write --check src/",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "release-patch": "yarn version --patch && yarn version --prepatch"
   },
   "keywords": [

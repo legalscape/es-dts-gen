@@ -1,0 +1,30 @@
+{
+  "mappings": {
+    "properties": {
+      "number_int_nonnull_mandatory": {
+        "type": "integer"
+      },
+      "number_long_nullable": {
+        "type": "long"
+      },
+      "number_float_optional": {
+        "type": "float"
+      },
+      "number_double_nullable_optional": {
+        "type": "double"
+      },
+      "date_array_nonnull_mandatory": {
+        "type": "date"
+      },
+      "boolean_array_nullable": {
+        "type": "boolean"
+      },
+      "keyword_array_optional": {
+        "type": "keyword"
+      },
+      "text_array_nullable_optional": {
+        "type": "text"
+      }
+    }
+  }
+}
