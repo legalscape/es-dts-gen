@@ -79,7 +79,7 @@ export class IndexMappingBuilder {
     logger.info('Listing indices...');
 
     const response = await this.client.indices.stats<IndicesStatsResponse>();
-    const result = Object.keys(response.body.indices);
+    const result = Object.keys(response.body.indices).filter((indexName) => !indexName.startsWith('.'));
 
     logger.info(`# of indices: ${result.length}`);
 
