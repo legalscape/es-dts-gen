@@ -1,6 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import { FieldTypeSpec } from './type-spec';
 import { SearchResponse } from './es/search';
+import { logger } from './logger';
 
 class FieldInspector {
   readonly client: Client;
@@ -13,8 +14,11 @@ class FieldInspector {
   }
 
   async inspect(fieldName: string, ancestors: string[]): Promise<FieldTypeSpec> {
+    logger.info(`Inspecting field: index = ${this.indexName}, field = ${[...ancestors, fieldName].join('.')}`);
+
     const { singleValue, multipleValues } = await this.inspectActualType(fieldName, ancestors);
     const { nullable, optional } = await this.inspectNullabilityAndOptionality(fieldName, ancestors);
+
     return new FieldTypeSpec(singleValue, multipleValues, nullable, optional);
   }
 

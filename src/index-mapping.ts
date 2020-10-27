@@ -8,6 +8,7 @@ import {
 } from './es/indices';
 import { FieldTypeSpec } from './type-spec';
 import { FieldInspector } from './field-inspector';
+import { logger } from './logger';
 
 export class IndexMappingField {
   readonly name: string;
@@ -75,8 +76,14 @@ export class IndexMappingBuilder {
    * Returns list of index names in the Elasticsearch cluster.
    */
   async listIndexNames(): Promise<string[]> {
+    logger.info('Listing indices...');
+
     const response = await this.client.indices.stats<IndicesStatsResponse>();
-    return Object.keys(response.body.indices);
+    const result = Object.keys(response.body.indices);
+
+    logger.info(`# of indices: ${result.length}`);
+
+    return result;
   }
 
   /**
@@ -99,6 +106,8 @@ export class IndexMappingBuilder {
   async fetchFieldDefinitions(
     indexName: string
   ): Promise<{ [fieldName: string]: FieldDefinition | FieldDefinitionNested }> {
+    logger.info(`Fetching index mapping: ${indexName}`);
+
     const response = await this.client.indices.getMapping<IndicesGetMappingResponse>({ index: indexName });
     return response.body[indexName].mappings.properties;
   }

@@ -4,10 +4,10 @@ import * as arg from 'arg';
 import { promises as fsPromises } from 'fs';
 import { IndexMappingBuilder } from './index-mapping';
 import { DtsGenerator } from './dts-generator';
-import * as colors from 'colors';
 import { Client } from '@elastic/elasticsearch';
 import * as util from 'util';
 import { FieldTypeSpec } from './type-spec';
+import { logger } from './logger';
 
 const ArgSpec = {
   '--node': String,
@@ -25,13 +25,13 @@ class Argument {
     const args = arg(ArgSpec);
 
     if (!args['--node']) {
-      console.log(`Option --node <URL> is not specified. Use default: ${this.node}`);
+      logger.info(`Option --node <URL> is not specified. Use default: ${this.node}`);
     } else {
       this.node = args['--node'];
     }
 
     if (!args['--destination']) {
-      console.log(`Option --destination <DIR> is not specified. Use default: ${this.destination}`);
+      logger.info(`Option --destination <DIR> is not specified. Use default: ${this.destination}`);
     } else {
       this.destination = args['--destination'];
       if (this.destination.endsWith('/')) {
@@ -40,7 +40,7 @@ class Argument {
     }
 
     if (!args['--default-types']) {
-      console.log(`Option --default-types <types...> is not specified. Use default: ${this.defaultTypeSpec}`);
+      logger.info(`Option --default-types <types...> is not specified. Use default: ${this.defaultTypeSpec}`);
     } else {
       const defaultTypes = [...new Set<string>(args['--default-types'].split(',').map((s) => s.trim()))];
       defaultTypes.forEach((s) => {
@@ -63,7 +63,7 @@ function initEsClient(node: string): Client {
   const client = new Client({ node });
   client.on('response', (err) => {
     if (err) {
-      console.error(util.inspect(err, { depth: Infinity }));
+      logger.error(util.inspect(err, { depth: Infinity }));
     }
   });
 
@@ -82,18 +82,16 @@ async function main(): Promise<void> {
     const mapping = indexMappings[i];
 
     const filename = `${args.destination}/${mapping.name}.d.ts`;
-    console.log(`[${colors.green(mapping.name)}] ${colors.underline(filename)}`);
-
     const code = new DtsGenerator(mapping, args.defaultTypeSpec).generate();
-    console.log(colors.grey(code));
+
+    logger.info(`Generated type definition: index = ${mapping.name}, file = ${filename}\n${code}`);
 
     await fsPromises.writeFile(filename, code);
   }
 }
 
 main()
-  .then(() => console.log('Done.'))
+  .then(() => logger.info('Done.'))
   .catch((e) => {
-    console.log('Unexpected error occurred.');
-    console.log(e);
+    logger.error('Unexpected error occurred.', e);
   });
