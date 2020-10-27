@@ -165,7 +165,7 @@ describe('InspectionResultRetriever', () => {
           optional: 0.5,
         },
       },
-      {}
+      {},
     ];
 
     test('Retriever array field', () => {
@@ -234,7 +234,7 @@ describe('InspectionResultRetriever', () => {
           nested2: {
             nonnull: 'text1',
             nullable: null,
-          }
+          },
         },
       },
       {
@@ -242,9 +242,9 @@ describe('InspectionResultRetriever', () => {
           nested2: {
             nonnull: 'text2',
             nullable: 1,
-          }
-        }
-      }
+          },
+        },
+      },
     ];
 
     test('Retrieve nonnull field', () => {

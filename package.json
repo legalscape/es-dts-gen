@@ -10,7 +10,7 @@
     "prepare": "npm run build",
     "build": "tsc -p .",
     "lint": "eslint --ext .ts src/",
-    "prettier": "prettier --write --check src/",
+    "prettier": "prettier --write --check src/ test/**/*.ts",
     "test": "jest",
     "release-patch": "yarn version --patch && yarn version --prepatch"
   },

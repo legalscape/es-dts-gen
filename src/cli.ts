@@ -2,10 +2,12 @@
 
 import * as arg from 'arg';
 import { promises as fsPromises } from 'fs';
-import { IndexMapping } from './index-mapping';
-import { DefaultType } from './default-type';
+import { IndexMappingBuilder } from './index-mapping';
 import { DtsGenerator } from './dts-generator';
 import * as colors from 'colors';
+import { Client } from '@elastic/elasticsearch';
+import * as util from 'util';
+import { FieldTypeSpec } from './type-spec';
 
 const ArgSpec = {
   '--node': String,
@@ -17,7 +19,7 @@ const ArgSpec = {
 class Argument {
   node = 'http://localhost:9200/';
   destination = 'generated/es';
-  defaultTypes: DefaultType = ['single'];
+  defaultTypeSpec: FieldTypeSpec = new FieldTypeSpec(true, false, false, false);
 
   constructor() {
     const args = arg(ArgSpec);
@@ -38,23 +40,41 @@ class Argument {
     }
 
     if (!args['--default-types']) {
-      console.log(`Option --default-types <types...> is not specified. Use default: ${this.defaultTypes}`);
+      console.log(`Option --default-types <types...> is not specified. Use default: ${this.defaultTypeSpec}`);
     } else {
       const defaultTypes = [...new Set<string>(args['--default-types'].split(',').map((s) => s.trim()))];
       defaultTypes.forEach((s) => {
-        if (!['single', 'array', 'undefined'].includes(s)) {
+        if (!['single', 'array', 'null', 'undefined'].includes(s)) {
           throw Error(`Unsupported default type: ${s}`);
         }
       });
 
-      this.defaultTypes = defaultTypes as DefaultType;
+      this.defaultTypeSpec = new FieldTypeSpec(
+        defaultTypes.includes('single'),
+        defaultTypes.includes('array'),
+        defaultTypes.includes('null'),
+        defaultTypes.includes('undefined')
+      );
     }
   }
 }
 
+function initEsClient(node: string): Client {
+  const client = new Client({ node });
+  client.on('response', (err) => {
+    if (err) {
+      console.error(util.inspect(err, { depth: Infinity }));
+    }
+  });
+
+  return client;
+}
+
 async function main(): Promise<void> {
   const args = new Argument();
-  const indexMappings = await IndexMapping.getIndexMappings(args.node);
+
+  const client = initEsClient(args.node);
+  const indexMappings = await new IndexMappingBuilder(client).build();
 
   await fsPromises.mkdir(args.destination, { recursive: true });
 
@@ -64,7 +84,7 @@ async function main(): Promise<void> {
     const filename = `${args.destination}/${mapping.name}.d.ts`;
     console.log(`[${colors.green(mapping.name)}] ${colors.underline(filename)}`);
 
-    const code = new DtsGenerator(mapping, args.defaultTypes).generate();
+    const code = new DtsGenerator(mapping, args.defaultTypeSpec).generate();
     console.log(colors.grey(code));
 
     await fsPromises.writeFile(filename, code);
