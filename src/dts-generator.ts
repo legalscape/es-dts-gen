@@ -3,7 +3,6 @@ import { IndexMapping, IndexMappingField, IndexMappingNestedField } from './inde
 import * as prettier from 'prettier';
 import { FieldTypeSpec } from './type-spec';
 import { logger } from './logger';
-import * as util from 'util';
 
 export class DtsGenerator {
   readonly indexMapping: IndexMapping;
@@ -46,10 +45,7 @@ export class DtsGenerator {
         const spec = field.spec || this.defaultSpec;
         return `${field.name}: ${spec.toTypeDefinition(tsType)};`;
       } catch (e) {
-        logger.error(
-          `Error: failed to convert type: field name = ${field.name}, type = ${field.type}.\nCaused by:`,
-          util.inspect(e, { depth: Infinity })
-        );
+        logger.error(`Error: failed to convert type: field name = ${field.name}, type = ${field.type}.`, e);
         throw e;
       }
     });

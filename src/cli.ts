@@ -5,7 +5,6 @@ import { promises as fsPromises } from 'fs';
 import { IndexMappingBuilder } from './index-mapping';
 import { DtsGenerator } from './dts-generator';
 import { Client } from '@elastic/elasticsearch';
-import * as util from 'util';
 import { FieldTypeSpec } from './type-spec';
 import { logger } from './logger';
 
@@ -63,7 +62,7 @@ function initEsClient(node: string): Client {
   const client = new Client({ node });
   client.on('response', (err) => {
     if (err) {
-      logger.error(util.inspect(err, { depth: Infinity }));
+      logger.error('elasticsearch-js caught an error: ', err);
     }
   });
 
