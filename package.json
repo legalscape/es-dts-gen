@@ -1,6 +1,6 @@
 {
   "name": "es-dts-gen",
-  "version": "0.0.3-0",
+  "version": "0.0.3",
   "description": "Generates TypeScript definition files from the index mappings of Elasticsearch.",
   "main": "./src/cli.js",
   "bin": {
