@@ -66,7 +66,13 @@ export class IndexMappingBuilder {
     const result: IndexMapping[] = [];
 
     for (const indexName of await this.listIndexNames()) {
-      result.push(await this.buildIndexMapping(indexName));
+      const indexMapping = await this.buildIndexMapping(indexName);
+
+      if (indexMapping === null) {
+        logger.info(`${indexName} has no properties.`);
+      } else {
+        result.push(indexMapping);
+      }
     }
 
     return result;
@@ -91,8 +97,12 @@ export class IndexMappingBuilder {
    *
    * @param indexName Name of the index.
    */
-  async buildIndexMapping(indexName: string): Promise<IndexMapping> {
+  async buildIndexMapping(indexName: string): Promise<IndexMapping | null> {
     const definitions = await this.fetchFieldDefinitions(indexName);
+    if (!definitions) {
+      return null;
+    }
+
     const fields = await new IndexMappingFieldBuilder(this.client, indexName).build(definitions);
 
     return new IndexMapping(indexName, fields);
@@ -105,11 +115,11 @@ export class IndexMappingBuilder {
    */
   async fetchFieldDefinitions(
     indexName: string
-  ): Promise<{ [fieldName: string]: FieldDefinition | FieldDefinitionNested }> {
+  ): Promise<{ [fieldName: string]: FieldDefinition | FieldDefinitionNested } | undefined> {
     logger.info(`Fetching index mapping: ${indexName}`);
 
     const response = await this.client.indices.getMapping<IndicesGetMappingResponse>({ index: indexName });
-    return response.body[indexName].mappings.properties;
+    return response.body[indexName].mappings?.properties;
   }
 }
 

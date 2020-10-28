@@ -58,7 +58,7 @@ interface IndicesStatsResponse {
 interface IndicesGetMappingResponse {
   [indexName: string]: {
     mappings: {
-      properties: {
+      properties?: {
         [fieldName: string]: FieldDefinition | FieldDefinitionNested;
       };
     };
