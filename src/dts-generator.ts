@@ -21,7 +21,13 @@ export class DtsGenerator {
     this.generateInterfaceCode(this.createInterfaceName(this.indexMapping.name), this.indexMapping.fields);
 
     const interfaceCodes = Object.values(this.interfaceCodes).join('\n\n');
-    return prettier.format(interfaceCodes, { parser: 'typescript', printWidth: 120 });
+
+    try {
+      return prettier.format(interfaceCodes, { parser: 'typescript', printWidth: 120 });
+    } catch (e) {
+      logger.error(`Failed to format generated code: index = ${this.indexMapping.name}.`, e);
+      return interfaceCodes;
+    }
   }
 
   generateInterfaceCode(interfaceName: string, fields: Array<IndexMappingField | IndexMappingNestedField>): void {
